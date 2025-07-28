@@ -7,11 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ErrorOr" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\NextBlogCleanArchitecture.Application\NextBlogCleanArchitecture.Application.csproj" />
+    <ProjectReference Include="..\NextBlogCleanArchitecture.Contracts\NextBlogCleanArchitecture.Contracts.csproj" />
+    <ProjectReference Include="..\NextBlogCleanArchitecture.Infrastructure\NextBlogCleanArchitecture.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
