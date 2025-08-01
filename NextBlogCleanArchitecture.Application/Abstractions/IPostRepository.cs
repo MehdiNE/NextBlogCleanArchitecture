@@ -6,5 +6,7 @@ namespace NextBlogCleanArchitecture.Application.Abstractions
     {
         Task CreatePost(Post post);
         Task<Post?> GetByIdAsync(Guid postId);
+        Task<List<Post>> GetAllPosts();
+        Task UpdatePostAsync(Post post);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using NextBlogCleanArchitecture.Application.Posts.Commands.ArchivePost;
 using NextBlogCleanArchitecture.Application.Posts.Commands.CreatePost;
 using NextBlogCleanArchitecture.Application.Posts.Queries;
 using NextBlogCleanArchitecture.Contracts.Post;
@@ -46,8 +47,31 @@ namespace NextBlogCleanArchitecture.Api.Controllers
             }
 
             return Ok(getPostResult.Value);
+        }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var query = new GetAllPostsQuery();
 
+            var result = await _mediator.Send(query);
+
+            return Ok(result);
+        }
+
+        [HttpPost("archive/{postId}")]
+        public async Task<IActionResult> Archive(Guid postId)
+        {
+            var command = new ArchivePostCommand(postId);
+
+            var archiveResult = await _mediator.Send(command);
+
+            if (archiveResult.IsError)
+            {
+                return NotFound();
+            }
+
+            return Ok();
         }
     }
 }

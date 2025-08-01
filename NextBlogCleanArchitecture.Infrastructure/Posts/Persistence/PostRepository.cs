@@ -1,23 +1,41 @@
-﻿using NextBlogCleanArchitecture.Application.Abstractions;
+﻿using Microsoft.EntityFrameworkCore;
+using NextBlogCleanArchitecture.Application.Abstractions;
 using NextBlogCleanArchitecture.Domain.Post;
+using NextBlogCleanArchitecture.Infrastructure.Common.Persistence;
 
 namespace NextBlogCleanArchitecture.Infrastructure.Posts.Persistence
 {
     public class PostRepository : IPostRepository
     {
-        private readonly List<Post> _posts = [];
+        private readonly NextBlogDbContext _dbContext;
 
-        public Task CreatePost(Post post)
+        public PostRepository(NextBlogDbContext dbContext)
         {
-            _posts.Add(post);
-
-            return Task.CompletedTask;
+            _dbContext = dbContext;
         }
 
-        public Task<Post?> GetByIdAsync(Guid postId)
+        public async Task CreatePost(Post post)
         {
-            var post = _posts.SingleOrDefault(post => post.Id == postId);
-            return Task.FromResult(post);
+            await _dbContext.Posts.AddAsync(post);
+        }
+
+        public async Task<List<Post>> GetAllPosts()
+        {
+            var posts = await _dbContext.Posts.ToListAsync();
+            return posts;
+        }
+
+        public async Task<Post?> GetByIdAsync(Guid postId)
+        {
+            var post = await _dbContext.Posts.SingleOrDefaultAsync(post => post.Id == postId);
+            return post;
+        }
+
+        public Task UpdatePostAsync(Post post)
+        {
+            _dbContext.Update(post);
+
+            return Task.CompletedTask;
         }
     }
 }
