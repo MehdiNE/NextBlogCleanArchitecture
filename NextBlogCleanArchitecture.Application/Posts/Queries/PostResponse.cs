@@ -1,4 +1,6 @@
-﻿namespace NextBlogCleanArchitecture.Contracts.Post
+﻿using NextBlogCleanArchitecture.Domain.Post;
+
+namespace NextBlogCleanArchitecture.Application.Posts.Queries
 {
     public class PostResponse
     {
@@ -6,7 +8,7 @@
         public required string Title { get; init; }
         public required string Content { get; init; }
         public required string AuthorName { get; init; }
-        public DateTime CreatedAt { get; init; }
+        public DateTime? CreatedAt { get; init; }
         public PostStatus PostStatus { get; init; }
 
     }

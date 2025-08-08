@@ -1,5 +1,4 @@
-﻿using Bookify.Domain.Bookings;
-using ErrorOr;
+﻿using FluentResults;
 using NextBlogCleanArchitecture.Domain.Abstractions;
 
 
@@ -39,16 +38,16 @@ namespace NextBlogCleanArchitecture.Domain.Post
             return post;
         }
 
-        public ErrorOr<Success> Archive()
+        public Result Archive()
         {
             if (PostStatus != PostStatus.Published)
             {
-                return PostErrors.OnlyPublished;
+                return Result.Fail(PostErrors.OnlyPublished);
             }
 
             PostStatus = PostStatus.Archived;
 
-            return Result.Success;
+            return Result.Ok();
         }
 
 

@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
+using NextBlogCleanArchitecture.Application.Common.Behaviors;
 
 namespace NextBlogCleanArchitecture.Application
 {
@@ -10,7 +12,11 @@ namespace NextBlogCleanArchitecture.Application
             services.AddMediatR(options =>
             {
                 options.RegisterServicesFromAssemblyContaining(typeof(DependencyInjection));
+
+                options.AddOpenBehavior(typeof(ValidationBehavior<,>));
             });
+
+            services.AddValidatorsFromAssemblyContaining(typeof(DependencyInjection));
 
             return services;
         }

@@ -1,12 +1,11 @@
-﻿using Bookify.Domain.Bookings;
-using ErrorOr;
+﻿using FluentResults;
 using MediatR;
 using NextBlogCleanArchitecture.Application.Abstractions;
 using NextBlogCleanArchitecture.Domain.Post;
 
 namespace NextBlogCleanArchitecture.Application.Posts.Commands.ArchivePost
 {
-    public class ArchivePostCommandHandler : IRequestHandler<ArchivePostCommand, ErrorOr<Success>>
+    public class ArchivePostCommandHandler : IRequestHandler<ArchivePostCommand, Result>
     {
         private readonly IPostRepository _postRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -17,20 +16,20 @@ namespace NextBlogCleanArchitecture.Application.Posts.Commands.ArchivePost
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<ErrorOr<Success>> Handle(ArchivePostCommand request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(ArchivePostCommand request, CancellationToken cancellationToken)
         {
-            var post = await _postRepository.GetByIdAsync(request.postId);
+            var post = await _postRepository.GetByIdAsync(request.PostId);
 
             if (post is null)
             {
-                return PostErrors.NotFound;
+                return Result.Fail(PostErrors.NotFound);
             }
 
             var archiveResult = post.Archive();
 
-            if (archiveResult.IsError)
+            if (archiveResult.IsFailed)
             {
-                return archiveResult.FirstError;
+                return Result.Fail(archiveResult.Errors);
             }
 
             await _postRepository.UpdatePostAsync(post);

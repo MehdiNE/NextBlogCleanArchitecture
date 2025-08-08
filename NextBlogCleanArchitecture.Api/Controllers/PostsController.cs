@@ -25,9 +25,9 @@ namespace NextBlogCleanArchitecture.Api.Controllers
 
             var createPostResult = await _mediator.Send(command);
 
-            if (createPostResult.IsError)
+            if (createPostResult.IsFailed)
             {
-                return Problem();
+                return BadRequest(createPostResult.Errors.Select(e => new { e.Message, e.Metadata }));
             }
 
             return Ok(createPostResult.Value);
@@ -41,9 +41,9 @@ namespace NextBlogCleanArchitecture.Api.Controllers
 
             var getPostResult = await _mediator.Send(query);
 
-            if (getPostResult.IsError)
+            if (getPostResult.IsFailed)
             {
-                return Problem(getPostResult.FirstError.Description);
+                return BadRequest(getPostResult.Errors.Select(e => new { e.Message, e.Metadata }));
             }
 
             return Ok(getPostResult.Value);
@@ -66,7 +66,7 @@ namespace NextBlogCleanArchitecture.Api.Controllers
 
             var archiveResult = await _mediator.Send(command);
 
-            if (archiveResult.IsError)
+            if (archiveResult.IsFailed)
             {
                 return NotFound();
             }

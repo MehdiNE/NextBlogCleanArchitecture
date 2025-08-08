@@ -1,11 +1,11 @@
-﻿using ErrorOr;
+﻿using FluentResults;
 using MediatR;
 using NextBlogCleanArchitecture.Application.Abstractions;
 using NextBlogCleanArchitecture.Domain.Post;
 
 namespace NextBlogCleanArchitecture.Application.Posts.Commands.CreatePost
 {
-    public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, ErrorOr<Guid>>
+    public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, Result<Guid>>
     {
         private readonly IPostRepository _postRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -17,9 +17,9 @@ namespace NextBlogCleanArchitecture.Application.Posts.Commands.CreatePost
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<ErrorOr<Guid>> Handle(CreatePostCommand request, CancellationToken cancellationToken)
+        public async Task<Result<Guid>> Handle(CreatePostCommand request, CancellationToken cancellationToken)
         {
-            var post = Post.Publish(new Guid(), request.title, request.content);
+            var post = Post.Publish(new Guid(), request.Title, request.Content);
 
             await _postRepository.CreatePost(post);
             await _unitOfWork.CommitChangesAsync(cancellationToken);

@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NextBlogCleanArchitecture.Application\NextBlogCleanArchitecture.Application.csproj" />
-    <ProjectReference Include="..\NextBlogCleanArchitecture.Contracts\NextBlogCleanArchitecture.Contracts.csproj" />
     <ProjectReference Include="..\NextBlogCleanArchitecture.Infrastructure\NextBlogCleanArchitecture.Infrastructure.csproj" />
   </ItemGroup>
 

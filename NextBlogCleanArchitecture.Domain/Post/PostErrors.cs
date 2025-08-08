@@ -1,15 +1,9 @@
-﻿
-using ErrorOr;
+﻿using FluentResults;
 
-namespace Bookify.Domain.Bookings;
+namespace NextBlogCleanArchitecture.Domain.Post;
 
 public static class PostErrors
 {
-    public static Error OnlyPublished = Error.Validation(
-        "Post.OnlyPublished",
-        "Only Published can be archived.");
-
-    public static Error NotFound = Error.NotFound(
-        "Post.NotFound",
-        "Post not found");
+    public static IError OnlyPublished => new Error("Only Published can be archived.");
+    public static IError NotFound => new Error("Post not found");
 }

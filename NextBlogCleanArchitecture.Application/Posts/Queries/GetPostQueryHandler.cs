@@ -1,11 +1,11 @@
-﻿using ErrorOr;
+﻿using FluentResults;
 using MediatR;
 using NextBlogCleanArchitecture.Application.Abstractions;
 using NextBlogCleanArchitecture.Domain.Post;
 
 namespace NextBlogCleanArchitecture.Application.Posts.Queries
 {
-    public class GetPostQueryHandler : IRequestHandler<GetPostQuery, ErrorOr<Post>>
+    public class GetPostQueryHandler : IRequestHandler<GetPostQuery, Result<PostResponse>>
     {
         private readonly IPostRepository _postRepository;
 
@@ -14,15 +14,25 @@ namespace NextBlogCleanArchitecture.Application.Posts.Queries
             _postRepository = postRepository;
         }
 
-        public async Task<ErrorOr<Post>> Handle(GetPostQuery request, CancellationToken cancellationToken)
+        public async Task<Result<PostResponse>> Handle(GetPostQuery request, CancellationToken cancellationToken)
         {
             var post = await _postRepository.GetByIdAsync(request.PostId);
             if (post is null)
             {
-                return Error.NotFound(description: "Post not found");
+                return Result.Fail(PostErrors.NotFound);
             }
 
-            return post;
+            var response = new PostResponse
+            {
+                AuthorName = string.Empty,
+                Content = post.Content,
+                Title = post.Title,
+                PostStatus = post.PostStatus,
+                Id = post.Id,
+                CreatedAt = post.PublishedAt
+            };
+
+            return Result.Ok(response);
 
         }
     }
