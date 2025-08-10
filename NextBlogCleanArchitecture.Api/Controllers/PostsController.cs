@@ -50,9 +50,9 @@ namespace NextBlogCleanArchitecture.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] GetAllPostQueryParams queryParams)
         {
-            var query = new GetAllPostsQuery();
+            var query = new GetAllPostsQuery(queryParams);
 
             var result = await _mediator.Send(query);
 

@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NextBlogCleanArchitecture.Application.Abstractions;
+using NextBlogCleanArchitecture.Application.Posts.Queries;
 using NextBlogCleanArchitecture.Domain.Post;
 using NextBlogCleanArchitecture.Infrastructure.Common.Persistence;
+using System.Linq.Expressions;
 
 namespace NextBlogCleanArchitecture.Infrastructure.Posts.Persistence
 {
@@ -19,10 +21,32 @@ namespace NextBlogCleanArchitecture.Infrastructure.Posts.Persistence
             await _dbContext.Posts.AddAsync(post);
         }
 
-        public async Task<List<Post>> GetAllPosts()
+        public IQueryable<Post> GetAllPosts(string? searchTerms, string? sortColumn, string? sortOrder)
         {
-            var posts = await _dbContext.Posts.ToListAsync();
-            return posts;
+            var query = _dbContext.Posts.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(searchTerms))
+            {
+                query = query.Where(x => x.Title.Contains(searchTerms) ||
+                x.Content.Contains(searchTerms));
+            }
+
+            Expression<Func<Post, object>> keySelector = sortColumn?.ToLower() switch
+            {
+                "title" => post => post.Title,
+                _ => post => post.Id,
+            };
+
+            if (sortOrder?.ToLower() == "desc")
+            {
+                query = query.OrderByDescending(keySelector);
+            }
+            else
+            {
+                query = query.OrderBy(keySelector);
+            }
+
+            return query;
         }
 
         public async Task<Post?> GetByIdAsync(Guid postId)

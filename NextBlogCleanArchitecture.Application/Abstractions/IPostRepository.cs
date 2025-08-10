@@ -1,4 +1,5 @@
-﻿using NextBlogCleanArchitecture.Domain.Post;
+﻿using NextBlogCleanArchitecture.Application.Posts.Queries;
+using NextBlogCleanArchitecture.Domain.Post;
 
 namespace NextBlogCleanArchitecture.Application.Abstractions
 {
@@ -6,7 +7,7 @@ namespace NextBlogCleanArchitecture.Application.Abstractions
     {
         Task CreatePost(Post post);
         Task<Post?> GetByIdAsync(Guid postId);
-        Task<List<Post>> GetAllPosts();
+        IQueryable<Post> GetAllPosts(string? searchTerms, string? sortColumn, string? sortOrder);
         Task UpdatePostAsync(Post post);
     }
 }
