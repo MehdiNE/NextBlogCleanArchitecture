@@ -28,20 +28,19 @@ namespace NextBlogCleanArchitecture.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Comment",
+                name: "Comments",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PostId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AuthorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Comment", x => x.Id);
+                    table.PrimaryKey("PK_Comments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Comment_Posts_PostId",
+                        name: "FK_Comments_Posts_PostId",
                         column: x => x.PostId,
                         principalTable: "Posts",
                         principalColumn: "Id",
@@ -49,8 +48,8 @@ namespace NextBlogCleanArchitecture.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comment_PostId",
-                table: "Comment",
+                name: "IX_Comments_PostId",
+                table: "Comments",
                 column: "PostId");
         }
 
@@ -58,7 +57,7 @@ namespace NextBlogCleanArchitecture.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Comment");
+                name: "Comments");
 
             migrationBuilder.DropTable(
                 name: "Posts");

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using NextBlogCleanArchitecture.Domain.Post;
+using NextBlogCleanArchitecture.Domain.Posts;
 
 namespace NextBlogCleanArchitecture.Infrastructure.Posts.Persistence
 {
@@ -10,12 +10,11 @@ namespace NextBlogCleanArchitecture.Infrastructure.Posts.Persistence
         {
             builder.HasKey(x => x.Id);
 
-            builder.Property(x => x.Id)
-                .ValueGeneratedNever();
-
-            builder.Property(x => x.AuthorId)
-                .HasColumnType("nvarchar(max)");
-
+            builder
+            .HasMany(p => p.Comments)              // Post has many Comments
+            .WithOne(c => c.Post)                  // Each Comment belongs to one Post
+            .HasForeignKey(c => c.PostId)          // Foreign key in Comment table
+            .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

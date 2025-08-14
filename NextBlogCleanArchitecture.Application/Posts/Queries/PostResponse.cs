@@ -1,4 +1,4 @@
-﻿using NextBlogCleanArchitecture.Domain.Post;
+﻿using NextBlogCleanArchitecture.Domain.Posts;
 
 namespace NextBlogCleanArchitecture.Application.Posts.Queries
 {

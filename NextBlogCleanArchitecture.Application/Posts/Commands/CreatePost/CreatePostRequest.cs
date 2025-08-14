@@ -1,4 +1,4 @@
-﻿namespace NextBlogCleanArchitecture.Contracts.Post
+﻿namespace NextBlogCleanArchitecture.Application.Posts.Commands.CreatePost
 {
     public class CreatePostRequest
     {

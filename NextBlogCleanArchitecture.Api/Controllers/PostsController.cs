@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using NextBlogCleanArchitecture.Application.Posts.Commands.ArchivePost;
 using NextBlogCleanArchitecture.Application.Posts.Commands.CreatePost;
 using NextBlogCleanArchitecture.Application.Posts.Queries;
-using NextBlogCleanArchitecture.Contracts.Post;
 
 namespace NextBlogCleanArchitecture.Api.Controllers
 {

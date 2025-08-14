@@ -22,14 +22,37 @@ namespace NextBlogCleanArchitecture.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("NextBlogCleanArchitecture.Domain.Post.Post", b =>
+            modelBuilder.Entity("NextBlogCleanArchitecture.Domain.Comments.Comment", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("AuthorId")
+                    b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("NextBlogCleanArchitecture.Domain.Posts.Post", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -48,6 +71,22 @@ namespace NextBlogCleanArchitecture.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("NextBlogCleanArchitecture.Domain.Comments.Comment", b =>
+                {
+                    b.HasOne("NextBlogCleanArchitecture.Domain.Posts.Post", "Post")
+                        .WithMany("Comments")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+                });
+
+            modelBuilder.Entity("NextBlogCleanArchitecture.Domain.Posts.Post", b =>
+                {
+                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }

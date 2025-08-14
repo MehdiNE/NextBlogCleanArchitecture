@@ -1,4 +1,4 @@
-﻿namespace NextBlogCleanArchitecture.Domain.Post
+﻿namespace NextBlogCleanArchitecture.Domain.Posts
 {
     public enum PostStatus
     {

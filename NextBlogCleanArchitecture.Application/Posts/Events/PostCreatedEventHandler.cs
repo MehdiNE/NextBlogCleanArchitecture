@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using NextBlogCleanArchitecture.Domain.Post.Events;
+using NextBlogCleanArchitecture.Domain.Posts.Events;
 
 namespace NextBlogCleanArchitecture.Application.Posts.Events
 {

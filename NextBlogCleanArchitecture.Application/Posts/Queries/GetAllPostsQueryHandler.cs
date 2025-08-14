@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using NextBlogCleanArchitecture.Application.Abstractions;
 using NextBlogCleanArchitecture.Application.Common;
-using NextBlogCleanArchitecture.Domain.Post;
+using NextBlogCleanArchitecture.Domain.Posts;
 
 namespace NextBlogCleanArchitecture.Application.Posts.Queries
 {

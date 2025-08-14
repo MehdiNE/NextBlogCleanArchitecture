@@ -1,16 +1,11 @@
 ﻿
 
+using FluentResults;
+
 namespace NextBlogCleanArchitecture.Domain.Comments
 {
     public static class CommentErrors
     {
-        //public static Error NotFound = new(
-        //"Comment.NotFound",
-        //"Comment not fount");
-
-        //public static Error OnlyAuthor = new(
-        // "Comment.OnlyAutor",
-        // "Only comment author can delete comment");
-
+        public static IError NotFound => new Error("Comment Not Found.");
     }
 }

@@ -1,6 +1,6 @@
 ﻿using FluentResults;
 
-namespace NextBlogCleanArchitecture.Domain.Post;
+namespace NextBlogCleanArchitecture.Domain.Posts;
 
 public static class PostErrors
 {

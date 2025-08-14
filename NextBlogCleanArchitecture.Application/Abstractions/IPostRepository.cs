@@ -1,5 +1,5 @@
 ﻿using NextBlogCleanArchitecture.Application.Posts.Queries;
-using NextBlogCleanArchitecture.Domain.Post;
+using NextBlogCleanArchitecture.Domain.Posts;
 
 namespace NextBlogCleanArchitecture.Application.Abstractions
 {

@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NextBlogCleanArchitecture.Application.Abstractions;
-using NextBlogCleanArchitecture.Application.Posts.Queries;
-using NextBlogCleanArchitecture.Domain.Post;
+using NextBlogCleanArchitecture.Domain.Posts;
 using NextBlogCleanArchitecture.Infrastructure.Common.Persistence;
 using System.Linq.Expressions;
 
@@ -51,15 +50,14 @@ namespace NextBlogCleanArchitecture.Infrastructure.Posts.Persistence
 
         public async Task<Post?> GetByIdAsync(Guid postId)
         {
-            var post = await _dbContext.Posts.SingleOrDefaultAsync(post => post.Id == postId);
+            var post = await _dbContext.Posts.Include(p => p.Comments).SingleOrDefaultAsync(post => post.Id == postId);
             return post;
         }
 
-        public Task UpdatePostAsync(Post post)
+        public async Task UpdatePostAsync(Post post)
         {
-            _dbContext.Update(post);
-
-            return Task.CompletedTask;
+            _dbContext.Posts.Update(post);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

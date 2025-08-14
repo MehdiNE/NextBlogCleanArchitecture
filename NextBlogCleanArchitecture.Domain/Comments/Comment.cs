@@ -1,27 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NextBlogCleanArchitecture.Domain.Abstractions;
+using NextBlogCleanArchitecture.Domain.Posts;
 
 namespace NextBlogCleanArchitecture.Domain.Comments
 {
-    public class Comment
+    public class Comment : Entity
     {
-        public Guid Id { get; private set; }
         public Guid PostId { get; private set; }
-        public Guid AuthorId { get; private set; }
-        public string Text { get; private set; }
+        public string Content { get; private set; }
         public DateTime CreatedAt { get; private set; }
+        public Post? Post { get; private set; }
 
 
-        internal Comment(Guid postId, Guid authorId, string text)
+        public Comment(Guid postId, string content, Guid? id = null) : base(id ?? Guid.NewGuid())
         {
-            Id = Guid.NewGuid();
             PostId = postId;
-            AuthorId = authorId;
-            Text = text;
+            Content = content;
             CreatedAt = DateTime.UtcNow;
         }
+        private Comment() { }
+
     }
 }
