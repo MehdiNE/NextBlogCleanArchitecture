@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NextBlogCleanArchitecture.Infrastructure.Common.Persistence;
 
@@ -11,9 +12,11 @@ using NextBlogCleanArchitecture.Infrastructure.Common.Persistence;
 namespace NextBlogCleanArchitecture.Infrastructure.Migrations
 {
     [DbContext(typeof(NextBlogDbContext))]
-    partial class NextBlogDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250814184140_Auth")]
+    partial class Auth
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

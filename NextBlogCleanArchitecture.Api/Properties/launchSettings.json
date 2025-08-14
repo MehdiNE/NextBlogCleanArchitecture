@@ -19,5 +19,12 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     }
+  },
+  "Jwt": {
+    "Key": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "Issuer": "NextBlog",
+    "Audience": "NextBlog.app",
+    "ExpirationInMinutes": 30,
+    "RefreshTokenExpirationInDays": 7
   }
 }

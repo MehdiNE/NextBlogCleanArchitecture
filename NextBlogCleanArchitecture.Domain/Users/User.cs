@@ -5,19 +5,23 @@ namespace NextBlogCleanArchitecture.Domain.Users
 {
     public sealed class User : Entity
     {
-        private User(Guid id, string firstName, string lastName) : base(id)
+        private User(Guid id) : base(id) { }
+
+        public string Username { get; private set; } = null!;
+        public string Email { get; private set; } = null!;
+        public DateTime CreatedAt { get; private init; }
+
+        public static User Create(Guid id, string username, string email)
         {
-            FirstName = firstName;
-            LastName = lastName;
-        }
+            if (string.IsNullOrWhiteSpace(username)) throw new ArgumentException("Username is required.");
+            if (string.IsNullOrWhiteSpace(email) || !email.Contains("@")) throw new ArgumentException("Invalid email.");
 
-        public string FirstName { get; private set; }
-        public string LastName { get; private set; }
-
-
-        public static User Create(string firstName, string lastName)
-        {
-            var user = new User(Guid.NewGuid(), firstName, lastName);
+            var user = new User(id)
+            {
+                Username = username,
+                Email = email,
+                CreatedAt = DateTime.UtcNow
+            };
 
             user.RaiseDomainEvents(new UserCreatedDomainEvent(user.Id));
 
