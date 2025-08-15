@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure;
+using Microsoft.EntityFrameworkCore;
 using NextBlogCleanArchitecture.Application.Abstractions;
 using NextBlogCleanArchitecture.Domain.Users;
 using NextBlogCleanArchitecture.Infrastructure.Common.Persistence;
@@ -34,6 +35,22 @@ namespace NextBlogCleanArchitecture.Infrastructure.Users.Persistence
         {
             var user = await _dbContext.DomainUsers.SingleOrDefaultAsync(x => x.Id == id);
             return user;
+        }
+
+        public async Task<IEnumerable<User>> GetFollowersAsync(Guid userId)
+        {
+            return await _dbContext.DomainUsers
+            .Where(x => x.Id == userId)
+            .Include(x => x.Followers)
+            .ToListAsync();
+        }
+
+        public async Task<IEnumerable<User>> GetFollowingsAsync(Guid userId)
+        {
+            return await _dbContext.DomainUsers
+            .Where(x => x.Id == userId)
+            .Include(x => x.Followings)
+            .ToListAsync();
         }
 
         public void UpdateAsync(User user)

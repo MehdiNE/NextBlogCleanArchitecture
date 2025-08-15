@@ -9,5 +9,7 @@ namespace NextBlogCleanArchitecture.Application.Abstractions
         Task AddAsync(User user);
         void UpdateAsync(User user);
         Task<bool> ExistsAsync(string email);
+        Task<IEnumerable<User>> GetFollowersAsync(Guid userId);
+        Task<IEnumerable<User>> GetFollowingsAsync(Guid userId);
     }
 }

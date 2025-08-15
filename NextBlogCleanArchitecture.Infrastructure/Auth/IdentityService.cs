@@ -35,7 +35,7 @@ namespace NextBlogCleanArchitecture.Infrastructure.Auth
             {
                 new Claim(JwtRegisteredClaimNames.Sub, appUser.Email!),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim("id", appUser.Id.ToString())
+                new Claim("UserId", appUser.Id.ToString())
             };
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtAuthOptions.Key));

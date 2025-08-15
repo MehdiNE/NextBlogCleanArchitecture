@@ -1,4 +1,6 @@
-﻿using NextBlogCleanArchitecture.Domain.Abstractions;
+﻿using FluentResults;
+using NextBlogCleanArchitecture.Domain.Abstractions;
+using NextBlogCleanArchitecture.Domain.Follows;
 using NextBlogCleanArchitecture.Domain.Users.Events;
 
 namespace NextBlogCleanArchitecture.Domain.Users
@@ -10,6 +12,10 @@ namespace NextBlogCleanArchitecture.Domain.Users
         public string Username { get; private set; } = null!;
         public string Email { get; private set; } = null!;
         public DateTime CreatedAt { get; private init; }
+        public ICollection<Follow> Followings { get; private set; } = [];
+        public ICollection<Follow> Followers { get; private set; } = [];
+
+
 
         public static User Create(Guid id, string username, string email)
         {
@@ -26,6 +32,28 @@ namespace NextBlogCleanArchitecture.Domain.Users
             user.RaiseDomainEvents(new UserCreatedDomainEvent(user.Id));
 
             return user;
+        }
+
+        public Result FollowUser(User followedUser)
+        {
+            if (Id == followedUser.Id)
+                return Result.Fail(FollowErrors.CantFollowYourSelf);
+
+            if (Followings.Any(f => f.FollowingId == followedUser.Id))
+                return Result.Fail(FollowErrors.AlreadyFollowing);
+
+            Followings.Add(Follow.Create(Id, followedUser.Id).Value);
+            return Result.Ok();
+        }
+
+        public Result Unfollow(User followedUser)
+        {
+            var follow = Followings.FirstOrDefault(f => f.FollowingId == followedUser.Id);
+            if (follow == null)
+                return Result.Fail(FollowErrors.NotFollowing);
+
+            Followings.Remove(follow);
+            return Result.Ok();
         }
     }
 }
